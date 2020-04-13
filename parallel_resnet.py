@@ -100,6 +100,7 @@ def run(rank, size):
     model = resnet50()
     # model = model.cuda(0)
     optimizer = optim.SGD(model.parameters(), lr=0.001, momentum=0.5)
+    loss_fn = torch.nn.MSELoss()
 
     print('starting training from ' + str(dist.get_rank()))
     for epoch in range(10):
@@ -113,7 +114,7 @@ def run(rank, size):
 
             optimizer.zero_grad()
             output = model(data)
-            loss = F.nll_loss(output, target)
+            loss = loss_fn(output, target)
             epoch_loss += loss
             loss.backward()
 
