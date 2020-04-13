@@ -100,7 +100,7 @@ def run(rank, size):
     model = vgg16()
     # model = model.cuda(0)
     optimizer = optim.SGD(model.parameters(), lr=0.001, momentum=0.5)
-    loss_fn = torch.nn.MSELoss()
+    loss_fn = torch.nn.CrossEntropyLoss()
 
     print('starting training from ' + str(dist.get_rank()))
     for epoch in range(10):
