@@ -88,9 +88,13 @@ def get_dataloader(batch_size):
 def average_gradients(model):
     """ Gradient averaging. """
     size = float(dist.get_world_size())
+    total_gradient_data = 0
     for param in model.parameters():
         dist.all_reduce(param.grad.data, op=dist.ReduceOp.SUM)
         param.grad.data /= size
+        total_gradient_data += param.grad.data.nelement()
+
+    print('total tensor size {}'.format(total_gradient_data))
 
 def run(rank, size):
     """ Distributed Synchronous SGD Example """
@@ -118,10 +122,10 @@ def run(rank, size):
             epoch_loss += loss
             loss.backward()
 
-            # gradient_time = time.time()
-            # average_gradients(model)
-            # gradient_time = time.time() - gradient_time
-            # print('averaging gradient time {}'.format(gradient_time))
+            gradient_time = time.time()
+            average_gradients(model)
+            gradient_time = time.time() - gradient_time
+            print('averaging gradient time {}'.format(gradient_time))
 
             optimizer.step()
 
