@@ -3,6 +3,7 @@ import numpy as np
 import pickle5 as pickle
 import random
 import os
+import time
 import torch
 import torch.distributed as dist
 import torch.nn as nn
@@ -104,6 +105,8 @@ def run(rank, size):
     for epoch in range(10):
         epoch_loss = 0.0
         for i, data in enumerate(dataloader, 0):
+            start_time = time.time()
+
             data, target = data
             # data = data.cuda(0)
             # target = target.cuda(0)
@@ -116,7 +119,9 @@ def run(rank, size):
 
             average_gradients(model)
             optimizer.step()
-            print('rank {} epoch loss {}'.format(rank, epoch_loss))
+
+            elapsed_time = start_time - time.time()
+            print('rank {} epoch loss {} time {}'.format(rank, epoch_loss, elapsed_time))
         print('Rank ',
               dist.get_rank(), ', epoch ', epoch, ': ',
               epoch_loss)
