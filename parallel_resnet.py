@@ -13,7 +13,7 @@ import torch.optim as optim
 from math import ceil
 from random import Random
 from torch.autograd import Variable
-from torchvision.models import vgg16
+from torchvision.models import resnet50
 from torch.multiprocessing import Process
 from torchvision import datasets, transforms
 
@@ -97,7 +97,7 @@ def run(rank, size):
     batch_size = 100
     torch.manual_seed(1234)
     dataloader = get_dataloader(batch_size)
-    model = vgg16()
+    model = resnet50()
     # model = model.cuda(0)
     optimizer = optim.SGD(model.parameters(), lr=0.001, momentum=0.5)
 
