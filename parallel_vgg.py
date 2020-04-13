@@ -89,7 +89,7 @@ def average_gradients(model):
     """ Gradient averaging. """
     size = float(dist.get_world_size())
     for param in model.parameters():
-        dist.all_reduce(param.grad.data, op=dist.reduce_op.SUM)
+        dist.all_reduce(param.grad.data, op=dist.ReduceOp.SUM)
         param.grad.data /= size
 
 def run(rank, size):
@@ -118,11 +118,11 @@ def run(rank, size):
             epoch_loss += loss
             loss.backward()
 
-            gradient_time = time.time()
-            average_gradients(model)
-            gradient_time = time.time() - gradient_time
-            print('averaging gradient time {}'.format(gradient_time))
-            
+            # gradient_time = time.time()
+            # average_gradients(model)
+            # gradient_time = time.time() - gradient_time
+            # print('averaging gradient time {}'.format(gradient_time))
+
             optimizer.step()
 
             elapsed_time = time.time() - start_time
