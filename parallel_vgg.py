@@ -97,7 +97,7 @@ def run(rank, size):
     torch.manual_seed(1234)
     dataloader = get_dataloader(batch_size)
     model = vgg16()
-    model = model.cuda(0)
+    # model = model.cuda(0)
     optimizer = optim.SGD(model.parameters(), lr=0.001, momentum=0.5)
 
     print('starting training from ' + str(dist.get_rank()))
@@ -105,8 +105,8 @@ def run(rank, size):
         epoch_loss = 0.0
         for i, data in enumerate(dataloader, 0):
             data, target = data
-            data = data.cuda(0)
-            target = target.cuda(0)
+            # data = data.cuda(0)
+            # target = target.cuda(0)
 
             optimizer.zero_grad()
             output = model(data)
