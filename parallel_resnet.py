@@ -118,7 +118,11 @@ def run(rank, size):
             epoch_loss += loss
             loss.backward()
 
+            gradient_time = time.time()
             average_gradients(model)
+            gradient_time = time.time() - gradient_time
+            print('averaging gradient time {}'.format(gradient_time))
+            
             optimizer.step()
 
             elapsed_time = time.time() - start_time
