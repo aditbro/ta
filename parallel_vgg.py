@@ -125,8 +125,8 @@ def init_process():
     """ Initialize the distributed environment. """
     os.environ['MASTER_ADDR'] = '167.205.32.100'
     os.environ['MASTER_PORT'] = '29500'
-    rank = os.environ['RANK']
-    size = os.environ['WORLD_SIZE']
+    rank = int(os.environ['RANK'])
+    size = int(os.environ['WORLD_SIZE'])
     dist.init_process_group('gloo', rank=rank, world_size=size)
     print('process initiated rank {}'.format(rank))
     run(rank, size)
