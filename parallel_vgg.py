@@ -137,7 +137,7 @@ def run(rank, size):
 
 def init_process():
     """ Initialize the distributed environment. """
-    os.environ['MASTER_ADDR'] = '167.205.32.100'
+    os.environ['MASTER_ADDR'] = '167.205.32.104'
     os.environ['MASTER_PORT'] = '29500'
     rank = int(os.environ['RANK'])
     size = int(os.environ['WORLD_SIZE'])
